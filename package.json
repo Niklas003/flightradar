@@ -1,0 +1,17 @@
+{
+  "name": "flightradar",
+  "version": "1.0.0",
+  "description": "small node application for flightradar",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "test",
+    "start": "node src/index.js"
+  },
+  "author": "Niklas003",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^5.1.0",
+    "flightradar24-client": "^1.0.1"
+  }
+}
