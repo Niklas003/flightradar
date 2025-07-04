@@ -6,7 +6,7 @@ const app = express();
 const port = 4000;
 app.listen(port, () => console.log(`The server is listening on port ${port}`));
 app.use("/logos", express.static(path.join(process.cwd(), "public", "logos")));
-app.use("/logos", express.static(path.join(process.cwd(), "public", "logos")));
+app.use("/banners", express.static(path.join(process.cwd(), "public", "banners")));
 
 //http://localhost:4000/flights?north=53&west=13&south=52&east=14
 app.get("/flights", async (req, res) => {
