@@ -1,7 +1,7 @@
 import express from "express";
 import { fetchFlights } from "./functions/fetchFlights.js";
 import path from "path";
-import { getAirportByIATA, getAirportByICAO } from "./functions/getAirport.js";
+import { getAirportByCity, getAirportByIATA, getAirportByICAO } from "./functions/getAirport.js";
 
 const app = express();
 const port = 4000;
@@ -54,7 +54,8 @@ app.get("/logo", (req, res) => {
 app.get("/airport", (req, res) => {
   const icao = req.query.icao;
   const iata = req.query.iata;
-  if (!icao && !iata) {
+  const city = req.query.city;
+  if (!icao && !iata && !city) {
     return res.status(400).json({ error: "Missing Airport Code" });
   }
   try {
@@ -63,6 +64,8 @@ app.get("/airport", (req, res) => {
       airport = getAirportByICAO(icao);
     } else if (iata) {
       airport = getAirportByIATA(iata);
+    } else if (city) {
+      airport = getAirportByCity(city);
     }
     res.json(airport);
   } catch (error) {
