@@ -3,7 +3,7 @@ import airports from '../../public/airports.json' with { type: 'json' };
 export function getAirportByICAO(icao){
     const icaoLowerCase = icao.toLowerCase();
     const airport = airports.find(airport => {
-        return airport.icao_code.toLowerCase() === icaoLowerCase;
+        return airport.icao_code.toLowerCase() === icaoLowerCase || airport.gps_code.toLowerCase() === icaoLowerCase;
     })
     if (!airport) {
         throw new Error('Airport not found'); // Throw an error if no airport is found
