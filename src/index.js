@@ -11,6 +11,10 @@ app.use(
   "/banners",
   express.static(path.join(process.cwd(), "public", "banners"))
 );
+app.use(
+  "/countrys",
+  express.static(path.join(process.cwd(), "public", "countrys"))
+);
 
 //http://localhost:4000/flights?north=53&west=13&south=52&east=14
 app.get("/flights", async (req, res) => {
@@ -71,4 +75,22 @@ app.get("/airport", (req, res) => {
   } catch (error) {
     return res.status(404).json({ error: error.message });
   }
+});
+
+app.get("/country", (req, res) => {
+  const countryCode = req.query.country;
+  if (!countryCode) {
+    return res.status(400).json({ error: "Missing Country Code" });
+  }
+  const filePath = path.resolve(
+    process.cwd(),
+    "public",
+    "countrys",
+    `${countryCode.toLowerCase()}.png`
+  );
+  res.sendFile(filePath, (err) => {
+    if (err) {
+      res.status(404).json({ error: "Flag not found" });
+    }
+  });
 });
