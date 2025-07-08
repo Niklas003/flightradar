@@ -25,11 +25,10 @@ app.get("/flights", async (req, res) => {
       req.query.south,
       req.query.east
     );
-    res.json(response);
+    res.status(200).json(response);
   } catch {
     res.status(404).json({ error: "Not Found" });
   }
-  res.json(response);
 });
 
 //http://localhost:4000/logo?icao=dlh
