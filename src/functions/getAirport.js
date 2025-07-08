@@ -1,7 +1,7 @@
 import airports from '../../public/airports.json' with { type: 'json' };
 
 export function getAirportByICAO(icao){
-    const icaoLowerCase = icao.toLowerCase();
+    const icaoLowerCase = icao.toString().toLowerCase();
     const airport = airports.find(airport => {
         return airport.icao_code.toLowerCase() === icaoLowerCase || airport.gps_code.toLowerCase() === icaoLowerCase;
     })
@@ -12,7 +12,7 @@ export function getAirportByICAO(icao){
 }
 
 export function getAirportByIATA(iata){
-    const iataLowerCase = iata.toLowerCase();
+    const iataLowerCase = iata.toString().toLowerCase();
     const airport = airports.find(airport => {
         return airport.iata_code.toLowerCase() === iataLowerCase;
     })
@@ -23,7 +23,7 @@ export function getAirportByIATA(iata){
 }
 
 export function getAirportByCity(city){
-    const cityLowerCase = city.toLowerCase();
+    const cityLowerCase = city.toString().toLowerCase();
     const airport = airports.filter((airport) => {
         const hasMatchingCityName = cityLowerCase
           .split(' ')
