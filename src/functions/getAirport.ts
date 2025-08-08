@@ -1,8 +1,9 @@
 import airports from '../../public/airports.json' with { type: 'json' };
 
 export function getAirportByICAO(icao){
+    const parsedAirports = JSON.parse(JSON.stringify(airports))
     const icaoLowerCase = icao.toString().toLowerCase();
-    const airport = airports.find(airport => {
+    const airport = parsedAirports.find(airport => {
         return airport.icao_code.toLowerCase() === icaoLowerCase || airport.gps_code.toLowerCase() === icaoLowerCase;
     })
     if (!airport) {
@@ -12,8 +13,9 @@ export function getAirportByICAO(icao){
 }
 
 export function getAirportByIATA(iata){
+    const parsedAirports = JSON.parse(JSON.stringify(airports))
     const iataLowerCase = iata.toString().toLowerCase();
-    const airport = airports.find(airport => {
+    const airport = parsedAirports.find(airport => {
         return airport.iata_code.toLowerCase() === iataLowerCase;
     })
     if (!airport) {
@@ -24,7 +26,8 @@ export function getAirportByIATA(iata){
 
 export function getAirportByCity(city){
     const cityLowerCase = city.toString().toLowerCase();
-    const airport = airports.filter((airport) => {
+    const parsedAirports = JSON.parse(JSON.stringify(airports))
+    const airport = parsedAirports.filter((airport) => {
         const hasMatchingCityName = cityLowerCase
           .split(' ')
           .every((search) =>

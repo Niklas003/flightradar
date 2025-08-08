@@ -1,7 +1,11 @@
 import express from "express";
-import { fetchFlights } from "./functions/fetchFlights.js";
+import { fetchFlights } from "../src/functions/fetchFlights.js";
 import path from "path";
-import { getAirportByCity, getAirportByIATA, getAirportByICAO } from "./functions/getAirport.js";
+import {
+  getAirportByCity,
+  getAirportByIATA,
+  getAirportByICAO,
+} from "../src/functions/getAirport.js";
 
 const app = express();
 const port = 4000;
@@ -33,8 +37,8 @@ app.get("/flights", async (req, res) => {
 
 //http://localhost:4000/logo?icao=dlh
 app.get("/logo", (req, res) => {
-  const icao = req.query.icao;
-  const banner = req.query.banner;
+  const icao = req.query.icao?.toString();
+  const banner = req.query.banner?.toString();
   if (!icao) {
     return res.status(400).json({ error: "Missing ICAO param" });
   }
@@ -77,7 +81,7 @@ app.get("/airport", (req, res) => {
 });
 
 app.get("/country", (req, res) => {
-  const countryCode = req.query.country;
+  const countryCode = req.query.country?.toLocaleString();
   if (!countryCode) {
     return res.status(400).json({ error: "Missing Country Code" });
   }
