@@ -8,9 +8,11 @@ import {
 } from "../src/functions/getAirport.js";
 
 const app = express();
-const port = 4000;
-app.listen(port, () => console.log(`The server is listening on port ${port}`));
-module.exports = app; // Export the app for testing
+
+if (process.env.NODE_ENV !== 'production') {
+  const port = process.env.PORT || 4000;
+  app.listen(port, () => console.log(`The server is listening on port ${port}`));
+}
 app.use("/logos", express.static(path.join(process.cwd(), "public", "logos")));
 app.use(
   "/banners",
@@ -98,3 +100,8 @@ app.get("/country", (req, res) => {
     }
   });
 });
+
+// Vercel serverless handler: export a function that forwards to the Express app
+export default function handler(req: any, res: any) {
+  return app(req, res);
+}

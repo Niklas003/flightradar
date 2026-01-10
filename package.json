@@ -4,10 +4,11 @@
   "description": "small node application for flightradar",
   "main": "index.js",
   "type": "module",
-  "scripts": {
-    "test": "test",
-    "start": "npx tsx watch api/index.ts"
-  },
+"scripts": {
+  "dev": "tsx watch api/index.ts",
+  "build": "tsc -p tsconfig.json",
+  "start": "node dist/api/index.js"
+},
   "author": "Niklas003",
   "license": "MIT",
   "dependencies": {
