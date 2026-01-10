@@ -102,6 +102,6 @@ app.get("/country", (req, res) => {
 });
 
 // Vercel serverless handler: export a function that forwards to the Express app
-export default function handler(req: any, res: any) {
+export default function handler(req, res) {
   return app(req, res);
 }
