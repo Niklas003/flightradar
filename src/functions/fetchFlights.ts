@@ -1,5 +1,4 @@
-import { fetchFromRadar } from "../../node_modules/flightradar24-client";
-
+import { fetchFromRadar } from 'flightradar24-client';
 export async function fetchFlights(north:any, west:any, south:any, east:any) {
   try {
     const response = await fetchFromRadar(Number(north), Number(west), Number(south), Number(east));

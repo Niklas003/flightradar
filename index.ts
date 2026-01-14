@@ -1,11 +1,11 @@
 import fastify from "fastify";
-import { fetchFlights } from "../src/functions/fetchFlights.js";
+import { fetchFlights } from "./src/functions/fetchFlights.js";
 import path from "path";
 import {
   getAirportByCity,
   getAirportByIATA,
   getAirportByICAO,
-} from "../src/functions/getAirport.js";
+} from "./src/functions/getAirport.js";
 
 const server = fastify()
 
