@@ -1,4 +1,4 @@
-import express from "express";
+import fastify from "fastify";
 import { fetchFlights } from "../src/functions/fetchFlights.js";
 import path from "path";
 import {
@@ -7,24 +7,10 @@ import {
   getAirportByICAO,
 } from "../src/functions/getAirport.js";
 
-const app = express();
-
-if (process.env.NODE_ENV !== 'production') {
-  const port = process.env.PORT || 4000;
-  app.listen(port, () => console.log(`The server is listening on port ${port}`));
-}
-app.use("/logos", express.static(path.join(process.cwd(), "public", "logos")));
-app.use(
-  "/banners",
-  express.static(path.join(process.cwd(), "public", "banners"))
-);
-app.use(
-  "/countrys",
-  express.static(path.join(process.cwd(), "public", "countrys"))
-);
+const server = fastify()
 
 //http://localhost:4000/flights?north=53&west=13&south=52&east=14
-app.get("/flights", async (req, res) => {
+server.get("/flights", async (req: any, res: any) => {
   try {
     let response = await fetchFlights(
       req.query.north,
@@ -39,7 +25,7 @@ app.get("/flights", async (req, res) => {
 });
 
 //http://localhost:4000/logo?icao=dlh
-app.get("/logo", (req, res) => {
+server.get("/logo", (req: any, res: any) => {
   const icao = req.query.icao?.toString();
   const banner = req.query.banner?.toString();
   if (!icao) {
@@ -53,7 +39,7 @@ app.get("/logo", (req, res) => {
   } else {
     filePath = path.resolve(process.cwd(), "public", "logos", fileName); // korrekt absoluter Pfad
   }
-  res.sendFile(filePath, (err) => {
+  res.sendFile(filePath, (err: Error) => {
     if (err) {
       res.status(404).json({ error: "Logo not found" });
     }
@@ -61,7 +47,7 @@ app.get("/logo", (req, res) => {
 });
 
 //http://localhost:4000/airport?icao=EDDF
-app.get("/airport", (req, res) => {
+server.get("/airport", (req: any, res: any) => {
   const icao = req.query.icao;
   const iata = req.query.iata;
   const city = req.query.city;
@@ -78,12 +64,12 @@ app.get("/airport", (req, res) => {
       airport = getAirportByCity(city);
     }
     res.json(airport);
-  } catch (error) {
+  } catch (error: Error | any) {
     return res.status(404).json({ error: error.message });
   }
 });
 
-app.get("/country", (req, res) => {
+server.get("/country", (req: any, res: any) => {
   const countryCode = req.query.country?.toLocaleString();
   if (!countryCode) {
     return res.status(400).json({ error: "Missing Country Code" });
@@ -94,14 +80,17 @@ app.get("/country", (req, res) => {
     "countrys",
     `${countryCode.toLowerCase()}.png`
   );
-  res.sendFile(filePath, (err) => {
+  res.sendFile(filePath, (err: Error) => {
     if (err) {
       res.status(404).json({ error: "Flag not found" });
     }
   });
 });
 
-// Vercel serverless handler: export a function that forwards to the Express app
-export default function handler(req, res) {
-  return app(req, res);
-}
+server.listen({ port: 8080 }, (err, address) => {
+  if (err) {
+    console.error(err)
+    process.exit(1)
+  }
+  console.log(`Server listening at ${address}`)
+})
